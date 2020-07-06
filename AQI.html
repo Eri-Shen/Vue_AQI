@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="scss/main.css">
+    <title>臺灣空氣品質網</title>
+</head>
+
+<body>
+    <div id="app">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="text-center jumbotron_title">臺灣即時空氣品質</h1>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form action="">
+                        <div class="form-group text-center">
+                            <label for="exampleFormControlSelect1">選擇觀測站</label>
+                            <select class="form-control" @change="selectCounty()" v-model="county"
+                                data-dropup-auto="false">
+                                <option value="全部" selected>全部</option>
+                                <option :value="item" v-for=" (item,index) in sourceCounty" :key="index"> {{ item }}
+                                </option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <div class="title" data-toggle="collapse" data-target="#collapseOne"
+                                    aria-expanded="true" aria-controls="collapseOne">關注城市</div>
+                            </div>
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <!-- <div class="row"> -->
+                                        <transition-group name="fade" tag="div" class="row">
+                                        <aqi-model :item="value" v-for=" ( value , index ) in filterData" :key="index"
+                                            @aqicancel='cancelcounty' v-if="value.attentionColor">
+                                        </aqi-model>
+                                        </transition-group>
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="title">所有城市</div>
+                    <hr>
+                </div>
+            </div>
+            <transition-group name="fade" tag="div" class="row">
+                <aqi-model :item="value" v-for=" ( value , index ) in filterData" :key="index" @aqisave='savecounty'
+                    v-if="!value.attentionColor"></aqi-model>
+            </transition-group>
+        </div>
+    </div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous">
+</script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
+</script>
+<script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+<!-- x-template -->
+<script type="text/x-template" id="x-template-aqi">
+    <div class="col-md-6">
+        <div class="model d-flex flex-row" :class="changeStatusColor">
+            <div class="model_left d-flex flex-column flex-grow-2">
+                <p class="justify-content-center text-center">AQI 指數</p>
+                <div class="model_left_circle justify-content-center text-center">
+                    <div class="model_left_circle_aqi justify-content-center">
+                        {{ item.AQI }}
+                    </div>
+                </div>
+                <div class="model_left_statu justify-content-center text-center">
+                    {{ item.Status }}
+                </div>
+            </div>
+            <div class="model_right d-flex flex-column flex-grow-1">
+                <div class="model_right_title">
+                    {{ item.County }} - {{ item.SiteName }}
+                </div>
+                <div class="model_right_save">
+                    <i class="fa fa-heart-o" aria-hidden="true"  @click="aqisaveemit(item)"v-if="!item.attentionColor"></i>
+                    <i class="fa fa-heart" aria-hidden="true" @click="aqicancelemit(item)"
+                    v-else></i>
+                </div>
+                <div class="model_right_text">一氧化碳：{{ item.CO }}</div>
+                <div class="model_right_text">臭氧：{{ item.O3 }}</div>
+                <div class="model_right_text">二氧化硫：{{ item.NO2 }}</div>
+                <div class="model_right_text">更新時間：{{ item.PublishTime }}</div>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script>
+    //建立元件
+    var aqiModel = {
+        props: ['item'],
+        data: function () {
+            return {
+                status: this.item.Status
+            }
+        },
+        template: '#x-template-aqi',
+        methods: {
+            aqisaveemit(item) {
+                this.$emit('aqisave', item)
+            },
+            aqicancelemit(item) {
+                this.$emit('aqicancel', item)
+            },
+        },
+        computed:{
+            changeStatusColor: function(){
+                switch (this.status) {
+                        case "良好":
+                            return 'aqiGood';
+                            console.log(this.changeStatusColor);
+                            break;
+                        case "普通":
+                            return 'aqiNormal';
+                            break;
+                        case "對敏感族群不健康":
+                            return 'aqiSensitive';
+                            break;
+                        case "對所有族群不健康":
+                            return 'aqiAll';
+                            break;
+                        case "非常不健康":
+                            return 'aqiExtreme';
+                            break;
+                        case "危害":
+                            return 'aqiDangerous';
+                            break;
+                    }
+            }
+        },
+    }
+
+
+
+
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            sourceData: [],
+            filterData: [],
+            sourceCounty: [],
+            tempData: [],
+            saveCounty: [],
+            county: '全部',
+
+        },
+        methods: {
+            //辨識每個觀測站要顯示的顏色
+            statusColorSet() {
+                let vm = this;
+                // console.log('statusColorSet', this);
+                // console.log('vm.sourceData.Status', vm.sourceData.Status);
+                vm.sourceData.forEach(function (item, index, array) {
+                    vm.$set(vm.sourceData[index], 'attentionColor', false);
+                });
+                vm.filterData = vm.sourceData;
+                if (vm.savecounty.length !== 0) {
+                    // console.log('進入判斷是有儲存關注城市')
+                    vm.filterData.forEach(function (item, index, array) {
+                        // console.log('進入判斷是有儲存關注城市')
+                        // console.log(vm.saveCounty.length);
+                        vm.$set(vm.filterData[index], 'attentionColor', false);
+                        for (let i = 0; i < vm.saveCounty.length; i++) {
+                            // console.log('vm.saveCounty', vm.saveCounty[i])
+                            if (vm.filterData[index].SiteId == vm.saveCounty[i]) {
+                                // console.log(vm.saveCounty[i], '=有關注城市');
+                                vm.$set(vm.filterData[index], 'attentionColor', true);
+                            }
+                        }
+                    });
+                } else {
+                    vm.$set(vm.filterData[index], 'attentionColor', false);
+                }
+            },
+
+            //下拉選單表資料建立:篩選不重複城市
+            CountySet() {
+                let vm = this;
+                vm.sourceData.forEach(function (item, index, array) {
+                    if (vm.sourceCounty.indexOf(vm.sourceData[index].County) == -1) {
+                        vm.sourceCounty.push(vm.sourceData[index].County)
+                    }
+                })
+                // console.log('所有縣市', vm.sourceCounty)
+            },
+            //使用下拉選單選擇城市，篩選資料
+            selectCounty() {
+                let vm = this;
+                vm.tempData = [];
+                if (vm.county == '全部') {
+                    // console.log('選全部');
+                    vm.tempData = vm.sourceData;
+                } else {
+                    vm.sourceData.forEach(function (item, index, array) {
+                        // console.log(item);
+                        if (item.County == vm.county) {
+                            // console.log('符合選擇城市')
+                            vm.tempData.push(item);
+                        }
+                    })
+                }
+                // console.log('選擇城市', this.county);
+                // console.log(this.tempData.length, this.tempData);
+                vm.filterData = "";
+                vm.filterData = vm.tempData;
+            },
+            //將關注城市寫到localStorage
+            savecounty(item) {
+                let vm = this;
+                // console.log(item)
+                item.attentionColor = true;
+                let index = vm.filterData.indexOf(item)
+                // vm.saveCounty.splice('vm.filterData[index].SiteId');
+                // vm.filterData.splice(index, 1)
+                vm.saveCounty.push(item.SiteId)
+                //寫入localStorage
+                localStorage.setItem('save', JSON.stringify(vm.saveCounty));
+            },
+            //將關注城市從localStorage移除
+            cancelcounty(item) {
+                // console.log('進入刪除')
+                let vm = this;
+                item.attentionColor = false;
+                let index = vm.saveCounty.indexOf(item.SiteId)
+                vm.saveCounty.splice(index, 1)
+                localStorage.setItem('save', JSON.stringify(vm.saveCounty));
+                // vm.filterData.push(item);
+            },
+        },
+        created: function () {
+            // console.log('created', this);
+            let vm = this;
+            axios.get(
+                    'https://script.googleusercontent.com/macros/echo?user_content_key=E-sTln7vYhacUGnzReltY49EWuh5QTCGBk63uU6tTsi5L67qX3s8LWwaZG4XAjT7YuREvxHzR6Tx5dP-nmB1vszdI6Nc4N5OOJmA1Yb3SEsKFZqtv3DaNYcMrmhZHmUMWojr9NvTBuBLhyHCd5hHa6ai2ySSbpOAv3TVSJTL1UGbCDqRjWDpbaLURoEeh3D9Fq72zGP28hXBAKzFYB4EXiWn5A-U8j-cBCRrZReUrtXik-LWNpEnEEUIeJCTHeLB25cBii0UY7jawfU1IaUobUEz4_8KsQUvG7RcrVv2q0M&lib=MknHa9IEn_wNEQgdg_NhRbgbBXOrB1RJZ'
+                )
+                .then(function (response) {
+                    // console.log(response);
+                    vm.sourceData = response.data;
+                    // console.log(this.sourceData);
+                    if (localStorage.getItem('save')) {
+                        vm.saveCounty = JSON.parse(localStorage.getItem('save'));
+                    }
+                    vm.statusColorSet();
+                    vm.CountySet();
+                    // console.log('存在LocalStorage的資料=', vm.saveCounty);
+                })
+                .catch(function (error) {
+                    // console.log(error);
+                });
+        },
+        components: {
+            'aqi-model': aqiModel,
+        },
+    })
+</script>
+
+</html>

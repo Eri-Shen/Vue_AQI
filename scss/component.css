@@ -1,0 +1,13 @@
+.jumbotron {
+  background-image: url(../image/index.jpg);
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.jumbotron_title {
+  letter-spacing: 5px;
+  color: #ffffff;
+  text-shadow: #6b6b6b 0px 3px 5px;
+  font-weight: bold;
+}
+/*# sourceMappingURL=component.css.map */

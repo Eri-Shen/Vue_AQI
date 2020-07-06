@@ -1,0 +1,32 @@
+.aqiGood {
+  background-color: #47bf47;
+}
+
+.aqiNormal {
+  background-color: #ffcc3e;
+}
+
+.aqiSensitive {
+  background-color: #f15a24;
+}
+
+.aqiAll {
+  background-color: #ea2f2f;
+}
+
+.aqiExtreme {
+  background-color: #99298c;
+}
+
+.aqiDangerous {
+  background-color: #99298c;
+}
+
+.attention {
+  background-color: red;
+}
+
+.card {
+  margin: 2em 0;
+}
+/*# sourceMappingURL=aqi.css.map */

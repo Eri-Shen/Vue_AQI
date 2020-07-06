@@ -1,0 +1,243 @@
+.aqiGood {
+  border: solid 1px #47bf47;
+  -webkit-box-shadow: 0 2px 6px 0px #b9e6b9;
+          box-shadow: 0 2px 6px 0px #b9e6b9;
+}
+
+.aqiGood .model_left_circle {
+  border-color: #47bf47;
+}
+
+.aqiGood .model_left_circle_aqi {
+  color: #47bf47;
+}
+
+.aqiGood .model_left_statu {
+  color: #297729;
+}
+
+.aqiNormal {
+  border: solid 1px #ffcc3e;
+  -webkit-box-shadow: 0 2px 6px 0px #fff4d7;
+          box-shadow: 0 2px 6px 0px #fff4d7;
+}
+
+.aqiNormal .model_left_circle {
+  border-color: #ffcc3e;
+}
+
+.aqiNormal .model_left_circle_aqi {
+  color: #ffcc3e;
+}
+
+.aqiNormal .model_left_statu {
+  color: #d79e00;
+}
+
+.aqiSensitive {
+  border: solid 1px #f15a24;
+  -webkit-box-shadow: 0 2px 6px 0px #fac6b4;
+          box-shadow: 0 2px 6px 0px #fac6b4;
+}
+
+.aqiSensitive .model_left_circle {
+  border-color: #f15a24;
+}
+
+.aqiSensitive .model_left_circle_aqi {
+  color: #f15a24;
+}
+
+.aqiSensitive .model_left_statu {
+  color: #a4330b;
+}
+
+.aqiAll {
+  border: solid 1px #ea2f2f;
+  -webkit-box-shadow: 0 2px 6px 0px #f8baba;
+          box-shadow: 0 2px 6px 0px #f8baba;
+}
+
+.aqiAll .model_left_circle {
+  border-color: #ea2f2f;
+}
+
+.aqiAll .model_left_circle_aqi {
+  color: #ea2f2f;
+}
+
+.aqiAll .model_left_statu {
+  color: #a31010;
+}
+
+.aqiExtreme {
+  border: solid 1px #99298c;
+  -webkit-box-shadow: 0 2px 6px 0px #dd7ed2;
+          box-shadow: 0 2px 6px 0px #dd7ed2;
+}
+
+.aqiExtreme .model_left_circle {
+  border-color: #99298c;
+}
+
+.aqiExtreme .model_left_circle_aqi {
+  color: #99298c;
+}
+
+.aqiExtreme .model_left_statu {
+  color: #491342;
+}
+
+.aqiDangerous {
+  border: solid 1px #360110;
+  -webkit-box-shadow: 0 2px 6px 0px #cc043d;
+          box-shadow: 0 2px 6px 0px #cc043d;
+}
+
+.aqiDangerous .model_left_circle {
+  border-color: #360110;
+}
+
+.aqiDangerous .model_left_circle_aqi {
+  color: #360110;
+}
+
+.aqiDangerous .model_left_statu {
+  color: black;
+}
+
+.attention {
+  background-color: red;
+}
+
+.card {
+  margin: 2em 0;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.jumbotron {
+  background-image: url(../image/index.jpg);
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.jumbotron_title {
+  letter-spacing: 5px;
+  color: #ffffff;
+  text-shadow: #6b6b6b 0px 3px 5px;
+  font-weight: bold;
+}
+
+.model {
+  padding: 1.5em 2em;
+  border-radius: 5px;
+  margin: 1em 0em;
+  background-color: #ffffff;
+}
+
+.model_left {
+  margin-right: 2em;
+  border-right: solid 1px #d0d0d0;
+  padding-right: 1.5em;
+}
+
+.model_left p {
+  font-size: 0.8em;
+  margin-bottom: 0.5em;
+}
+
+.model_left_circle {
+  position: relative;
+  border: solid 3px;
+  border-radius: 50%;
+  width: 4.5em;
+  height: 4.5em;
+}
+
+.model_left_circle_aqi {
+  position: absolute;
+  font-weight: bold;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+          transform: translateX(-50%) translateY(-50%);
+  font-size: 1.5em;
+}
+
+.model_left_statu {
+  margin-top: 0.5em;
+  letter-spacing: 3px;
+  font-weight: bold;
+}
+
+.model_right_title {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 0.2em;
+}
+
+@media screen and (max-width: 992px) {
+  .model_right_title {
+    font-size: 1em;
+  }
+}
+
+.model_right_save {
+  position: absolute;
+  left: 95%;
+  font-size: 1.3em;
+  cursor: pointer;
+}
+
+.model_right_save .fa {
+  color: #ff4672;
+}
+
+.model_right_save:hover {
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+  -webkit-transition: ease-in;
+  transition: ease-in;
+}
+
+.title {
+  font-size: 1.5em;
+  color: #2b5c84;
+  font-weight: bold;
+}
+
+.card-header .title {
+  cursor: pointer;
+}
+
+.card-header:hover {
+  background-color: #ffdbe4;
+}
+
+.card-body {
+  padding: 0.5rem;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+  color: #444444;
+}
+
+#app {
+  background-color: #fbfbfb;
+}
+
+.fade-enter-active, .fade-leave-active {
+  -webkit-transition: opacity .3s;
+  transition: opacity .3s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+/*# sourceMappingURL=main.css.map */

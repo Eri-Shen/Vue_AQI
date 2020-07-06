@@ -1,0 +1,96 @@
+.jumbotron {
+   background-image: url(../image/index.jpg);
+   background-attachment: fixed;
+   background-size: cover;
+
+   &_title {
+      letter-spacing: 5px;
+      color: #ffffff;
+      text-shadow: #6b6b6b 0px 3px 5px;
+      font-weight: bold;
+   }
+}
+
+.model {
+   padding: 1.5em 2em;
+   border-radius: 5px;
+   margin: 1em 0em;
+   background-color: #ffffff;
+}
+
+.model_left {
+   margin-right: 2em;
+   border-right: solid 1px #d0d0d0;
+   padding-right: 1.5em;
+   p{
+      font-size: 0.8em;
+      margin-bottom: 0.5em;
+   }
+
+   &_circle {
+      position: relative;
+      border: solid 3px ;
+      border-radius: 50%;
+      width: 4.5em;
+      height: 4.5em;
+
+      &_aqi {
+         position: absolute;
+         font-weight: bold;
+         top: 50%;
+         left: 50%;
+         transform: translateX(-50%) translateY(-50%);
+         font-size: 1.5em;
+      }
+   }
+   &_statu{
+      margin-top: 0.5em;
+      letter-spacing: 3px;
+      font-weight: bold;
+   }
+}
+
+.model_right {
+   &_title{
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-bottom: 0.2em;
+      @media screen and (max-width: 992px) {
+         font-size: 1em;
+      }
+   }
+   &_save{
+      position: absolute;
+      left: 95%;
+      font-size: 1.3em;
+      cursor: pointer;
+      .fa{
+         color: #ff4672;
+      }
+      &:hover{
+         transform: scale(1.2);
+         transition: ease-in;
+      }
+   }
+   &_text{
+
+   }
+   
+}
+
+.title{
+   font-size: 1.5em;
+   color: #2b5c84;
+   font-weight: bold;
+}
+.card-header{
+   .title{
+      cursor: pointer;
+   }
+   &:hover{
+      background-color: rgb(255, 219, 228);
+   }
+}
+.card-body{
+   padding: 0.5rem;
+}
