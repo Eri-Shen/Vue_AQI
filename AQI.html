@@ -40,7 +40,7 @@
                         <div class="card">
                             <div class="card-header" id="headingOne">
                                 <div class="title" data-toggle="collapse" data-target="#collapseOne"
-                                    aria-expanded="true" aria-controls="collapseOne">關注城市</div>
+                                    aria-expanded="true" aria-controls="collapseOne">關注觀測站</div>
                             </div>
                             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
                                 data-parent="#accordionExample">
@@ -60,14 +60,16 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <div class="title">所有城市</div>
+                    <div class="title">所有觀測站</div>
                     <hr>
                 </div>
             </div>
-            <transition-group name="fade" tag="div" class="row">
-                <aqi-model :item="value" v-for=" ( value , index ) in filterData" :key="index" @aqisave='savecounty'
-                    v-if="!value.attentionColor"></aqi-model>
-            </transition-group>
+            <div class="mb-4">
+                <transition-group name="fade" tag="div" class="row">
+                    <aqi-model :item="value" v-for=" ( value , index ) in filterData" :key="index" @aqisave='savecounty'
+                        v-if="!value.attentionColor"></aqi-model>
+                </transition-group>
+            </div>
         </div>
     </div>
 
